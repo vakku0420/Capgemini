@@ -1,10 +1,9 @@
 package LoanApplication;
-
 import java.util.List;
-
+//creating interface
 public interface LoanDao {
-   public void getAllLoanRequest();
-   public void  getLoanRequest();
+	
+	public LoanRequest addLoanRequest(LoanRequest reqList);
+	public void viewLoanRequest(String accountId);
+	}
 
-   
-}

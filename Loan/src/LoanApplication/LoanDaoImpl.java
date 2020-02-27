@@ -1,120 +1,65 @@
 package LoanApplication;
-
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Scanner;
 
-public class LoanDaoImpl implements LoanDao {
+public  class LoanDaoImpl extends LoanRequest implements LoanDao {
+//list is working as a database
+	List<LoanRequest> reqList = new ArrayList<LoanRequest>();
 	
-	public static ArrayList<LoanRequest> accid =new ArrayList<>();
-	
-   //list is working as a database
-   List<LoanRequest> LoanReques;
-   LoanRequest request1;
-   LoanRequest request2;
-
-   public LoanDaoImpl(){
-      LoanReques = new ArrayList<LoanRequest>();		
-   }
-  
-   //retrive list of students from the database
-   @Override
-   public void getAllLoanRequest() {
-	   
-   }
-
-@Override
-public void getLoanRequest() {
-	// TODO Auto-generated method stub
-	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-	DataInputStream din=new DataInputStream(System.in);
-	System.out.println("Enter accountid");
-    try {
-		String id = br.readLine();
-		if(id.length()==12)
-         System.out.println("Account Id:" + id);
-		else {
-	        throw new Exception("Invalid AccountId");
-	    }
-	} catch(Exception e){
-	    System.out.println ("Invalid AccountId");
+public LoanDaoImpl() {
+//User(String userType,long userId,String userName,String userpassword,long userPhone,String userEmail)
+		super();
+		LoanRequest r1=new LoanRequest("123456123456",1000.0,12,100,9,"Accepted","Home_Loan");
+		 reqList.add(r1);
+		
 	}
-    
-    System.out.print("Enter amount:");
-    try {
-    	double amount =Double.parseDouble(br.readLine());;
-    	if(amount>=1000 && amount<=10000000 )
-    	System.out.println("Amount:" + amount);
-    	else {
-    		throw new Exception("Enter the amount in range 1000-10000000");
-    	}
-    }catch(Exception e) {
-    	System.out.println("Enter the amount in range 1000-10000000");
-    }
-    
-    System.out.println("Enter tenure:");
-    try {
-    	int tenure =Integer.parseInt(br.readLine());
-    	if(tenure >=12 && tenure <=240)
-    	System.out.println("tenure:" + tenure);
-    	else {
-    		throw new Exception("Enter tenure in range 12-240");
-    	}
-    }catch(Exception e) {
-    	System.out.println("Enter tenure in range 12-240");
-    }
-    
-    System.out.println("Enter Credit Score:");
-    try {
-    	int creditScore =Integer.parseInt(br.readLine());
-    	if(creditScore >=100 && creditScore <=999)
-    	System.out.println("Credit Score:" + creditScore);
-    	else {
-    		throw new Exception("Enter credit score in range 100-999");
-    	}
-    }catch(Exception e) {
-    	System.out.println("Enter credit score in range 100-999");
-    }
-    
-    System.out.println("Enter rate of interest:");
-    try {
-    	double roi =Double.parseDouble(br.readLine());
-    	if(roi>=4 && roi<=15)
-    	System.out.println("Rate of Interest:" + roi);
-    	else {
-    		throw new Exception("Enter rate of interest in range 4-15");
-    	}
-    }catch(Exception e) {
-    	System.out.println("Enter rate of interest in range 4-15");
-    }
-    
-    System.out.println("Enter Loan Status \n1 for Accepted \n2 for Rejected \n3 for Pending");
-    try {
-    	String status = br.readLine();
-    	if(status.equals("Accepted") || status.equals("Rejected") || status.equals("Pending")) 
-    		System.out.println("Loan Status :" + status);
-    	
-    	else {
-    		throw new Exception("Select the valid loan status from given options");
-    	}
-    }catch(Exception e) {
-    	System.out.println("Select the valid loan status from given options");
-    }
-    
-    System.out.println("Enter Loan Type:");
-    try {
-    	String type =br.readLine();
-    	if(type.equals("Education Loan") || type.equals("Home Loan") || type.equals("Vehicle Loan"))
-    	System.out.println("Loan Type:" + type);
-    	else {
-    		throw new Exception("Select the valid loan type from given options");
-    	}
-    }catch(Exception e) {
-    	System.out.println("Select the valid loan type from given options");
-    }
-    
-   
-}}
+	public  LoanRequest addLoanRequest(LoanRequest req) {
+	//Adds a new User
+	reqList.add(req);
+		System.out.println("Record updated ");
+		return req;
+				}	
+	public void viewLoanRequest(String accountIdId) {
+	//Shows the details of loan request identifiable by the account id.
+	Iterator itr=reqList.iterator();
+	while(itr.hasNext()) {
+		LoanRequest us=(LoanRequest)itr.next();
+		if(accountId.equals(us.getAccountId())) {
+System.out.println(us.getAccountId()+" | "+us.getAmount()+" | "+us.getTenure()+" | "+us.getCreditScore()+" | "+us.getRoi()+" | "+us.getStatus()+ "|" + us.getType());
+break;		}
+	
+	}	
+}
+public void viewAllLoanRequest() {
+	//Shows the details of all loan requesters
+		Iterator itr=reqList.iterator();
+			while(itr.hasNext()) {
+				LoanRequest us=(LoanRequest)itr.next();
+				System.out.println("\n\nAccount Id:" + us.getAccountId()+"\nAmount: "+us.getAmount()+"\nTenure:"+us.getTenure()+"\nCredit Score:"+us.getCreditScore()+"\nRate of Interest:"+us.getRoi()+"\nLoan Status:"+us.getStatus()+ "\nLoan Type:" + us.getType());
+					}
+		
+		}
+
+	public void validateLoanRequest(LoanRequest req) {
+	//Validates the attributes of a user
+		Iterator itr=reqList.iterator();
+		while(itr.hasNext()) {
+			LoanRequest r=(LoanRequest)itr.next();
+			//overridding equals method
+if(req.equals(r) ) {
+	System.out.println("Loan Request Accepted");
+	System.out.println("Enter the amount:");
+	Scanner sc = new Scanner(System.in);
+	double amount = sc.nextInt();
+	
+	return;
+}
+		}
+		System.out.println("Loan Request Rejected");
+}
+	}
+	
+
